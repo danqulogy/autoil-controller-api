@@ -1,0 +1,180 @@
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item active">
+        <i class="fas fa-chart-line"></i>
+        Reporting
+    </li>
+</ol>
+
+<div class="clearfix"></div>
+
+<ul class="nav nav-tabs nav-justified" id="rpTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="rpPumpsTab" data-page="PumpsReportingPage" href="#">
+            <i class="fas fa-gas-pump"></i> Pumps
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="rpTanksTab" data-page="TanksReportingPage" href="#">
+            <i class="fas fa-database"></i> Tanks
+        </a>
+    </li>
+</ul>
+
+<div class="col-sm-8 offset-sm-2 input-group pt-3 mb-1">
+    <div class="input-group-prepend">
+        <label id="rpDeviceNumberLabel" class="input-group-text" for="rpDeviceNumberSelect">Device number</label>
+    </div>
+    <select id="rpDeviceNumberSelect" class="custom-select form-control"></select>
+</div>
+
+<div class="col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="rpDateTimeStartInput">Date/time start</label>
+    </div>
+    <input id="rpDateTimeStartInput" type="text" class="form-control" value="00.00.00 00:00:00">
+</div>
+
+<div class="col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="rpDateTimeEndInput">Date/time end</label>
+    </div>
+    <input id="rpDateTimeEndInput" type="text" class="form-control" value="00.00.00 00:00:00">
+</div>
+
+<div id="rpFuelGradesList" class="d-none col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="rpFuelGradeSelect">Fuel grade</label>
+    </div>
+    <select id="rpFuelGradeSelect" class="custom-select form-control"></select>
+</div>
+
+<div id="rpUsersList" class="d-none col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="input-group-prepend">
+        <label class="input-group-text" for="rpUserSelect">User</label>
+    </div>
+    <select id="rpUserSelect" class="custom-select form-control"></select>
+</div>
+
+<div id="rpPumpSummaryReport" class="form-group w-100 d-none col-sm-8 offset-sm-2 mb-1">
+    <div class="custom-control custom-radio form-check">
+        <input type="radio" class="custom-control-input" id="rpPumpNozzlesTotalsRadio1" name="rpPumpSummaryTotals" checked>
+        <label class="custom-control-label" for="rpPumpNozzlesTotalsRadio1">Pump nozzles summary report without totals</label>
+    </div>
+    <div class="custom-control custom-radio form-check">
+        <input type="radio" class="custom-control-input" id="rpPumpNozzlesTotalsRadio2" name="rpPumpSummaryTotals">
+        <label class="custom-control-label" for="rpPumpNozzlesTotalsRadio2">Pump nozzles summary report with totals</label>
+    </div>
+</div>
+
+<div id="rpTankDirection" class="d-none col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="input-group-prepend">
+        <label id="rpTankDirectionLabel" class="input-group-text" for="rpTankDirectionSelect">Direction</label>
+    </div>
+    <select id="rpTankDirectionSelect" class="custom-select form-control">
+        <option value="0" selected>All</option>
+        <option value="1">Increase</option>
+        <option value="2">Decrease</option>
+    </select>
+</div>
+
+<div id="rpTankReconciliationReport" class="form-group w-100 d-none col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="custom-control custom-checkbox form-check">
+        <input type="checkbox" class="custom-control-input" id="rpTankReconciliationCheckbox">
+        <label class="custom-control-label" for="rpTankReconciliationCheckbox">Generate tank reconciliation report</label>
+    </div>
+</div>
+
+<div id="rpTankMeasurementsChart" class="form-group w-100 d-none col-sm-8 offset-sm-2 input-group mb-1">
+    <div class="custom-control custom-checkbox form-check">
+        <input type="checkbox" class="custom-control-input" id="rpTankMeasurementsCheckbox">
+        <label class="custom-control-label" for="rpTankMeasurementsCheckbox">Generate tank measurements chart</label>
+    </div>
+</div>
+
+<div class="tab-content tabContent pb-2" id="rpTabContent"></div>
+
+<script>
+    $('#rpTab a').on('click', function (e) {
+        e.preventDefault();
+
+        $(this).tab('show');
+
+        // Fill tab content
+        $("#rpTabContent").empty();
+        $("#rpTabContent").load("pagesPartial/" + this.getAttribute("data-page") + ".html");
+    });
+
+    // Fill tab content
+    $("#rpTabContent").empty();
+    $("#rpTabContent").load("pagesPartial/PumpsReportingPage.html");
+    
+    // Clean arrays
+    commands = [];
+
+    // Send request
+    commands.push({
+        function: GetDateTime
+    });
+    request = createComplexRequest(commands);
+
+    request.done(function(response) {
+        if (responseNull == true)
+            return;
+
+        // Response data
+        data = response.Packets.filter(Packet => Packet.Type == "DateTime");
+        if (data != null &&
+            data != undefined &&
+            data.length > 0) {
+            data = data[0].Data;
+            if (data != undefined) {
+
+                var currentDate = new Date(data.DateTime);
+                var previousDate = new Date(data.DateTime);
+                previousDate.setDate(previousDate.getDate() - 1);
+
+                // Select system date/time
+                $('#rpDateTimeStartInput').datetimepicker({
+                    format:'y.m.d H:i:s',
+                    formatDate: 'y.m.d',
+                    formatTime: 'H:i:s',
+                    step: 1
+                });
+
+                // Select system date/time
+                $('#rpDateTimeEndInput').datetimepicker({
+                    format:'y.m.d H:i:s',
+                    formatDate: 'y.m.d',
+                    formatTime: 'H:i:s',
+                    step: 1
+                });
+
+                var year = addZero(previousDate.getFullYear() % 100);
+                var month = addZero(previousDate.getMonth() + 1);
+                var date = addZero(previousDate.getDate());
+                var hours = addZero(previousDate.getHours());
+                var minutes = addZero(previousDate.getMinutes());
+                var seconds = addZero(previousDate.getSeconds());
+                
+                $('#rpDateTimeStartInput').val(year + "." + month + "." + date + " " + hours + ":" + minutes + ":" + seconds);    
+
+                year = addZero(currentDate.getFullYear() % 100);
+                month = addZero(currentDate.getMonth() + 1);
+                date = addZero(currentDate.getDate());
+                hours = addZero(currentDate.getHours());
+                minutes = addZero(currentDate.getMinutes());
+                seconds = addZero(currentDate.getSeconds());
+
+                $('#rpDateTimeEndInput').val(year + "." + month + "." + date + " " + hours + ":" + minutes + ":" + seconds);
+                
+                function addZero(i) {
+                    if (i.toString().length == 1) {
+                        i = "0" + i.toString();
+                    }
+                    return i;
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="PTS-2 controller web-server">
+        <meta name="author" content="Technotrade LLC">
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
+        <link href="img/favicon.ico" rel="shortcut icon" />
+        <title>
+            PTS-2 controller web-server
+        </title>
+
+        <!-- build:css -->
+        <!-- Bootstrap core CSS-->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <!-- Datatables.net-->
+        <link href="css/datatables.min.css" rel="stylesheet" type="text/css">
+        <!-- Styles for jQuery datetimepicker-->
+        <link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="css/website.css" rel="stylesheet">
+        <!-- endbuild -->
+
+    </head>
+
+    <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" id="mainNav">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-gas-pump"></i>
+                FuelDash v1.0
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav navbar-sidenav">
+                    <li id="PumpsControlPageLi" class="nav-item d-none" data-toggle="tooltip" data-placement="right" title="Pumps control">
+                        <a class="nav-link pageLink" href="#PumpsControlPage" id="PumpsControlPage">
+                            <i class="fas fa-gas-pump"></i>
+                            <span class="nav-link-text">
+                                Pumps control
+                            </span>
+                        </a>
+                    </li>
+                    <li id="TanksMonitoringPageLi" class="nav-item d-none" data-toggle="tooltip" data-placement="right" title="Tanks monitoring">
+                        <a class="nav-link pageLink" href="#TanksMonitoringPage" id="TanksMonitoringPage">
+                            <i class="fas fa-tint"></i>
+                            <span class="nav-link-text">
+                                Tanks monitoring
+                            </span>
+                        </a>
+                    </li>
+                    <li id="ReportingPageLi" class="nav-item d-none" data-toggle="tooltip" data-placement="right" title="Reporting">
+                        <a class="nav-link pageLink" href="#ReportingPage" id="ReportingPage">
+                            <i class="fas fa-chart-line"></i>
+                            <span class="nav-link-text">
+                                Reporting
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav sidenav-toggler">
+                    <li class="nav-item">
+                        <a class="nav-link text-center" id="sidenavToggler">
+                            <i id="sidenavTogglerArrow" class="fas fa-fw fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto"> 
+                  <li class="nav-item dropdown">
+                    <a id="usernameDiv" type="button" class="btn btn-secondary dropdown-toggle" href="#" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      User name
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarMenu">
+                      <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+                <div id="mainContainer" class="mb-2"></div>
+
+            </div>
+            <!-- /.container-fluid-->
+            <!-- /.content-wrapper-->
+            <footer class="sticky-footer">
+                <div class="text-left pl-2">
+                    <small>
+                        <b><i class="fas fa-gas-pump"></i> FuelDash</b> a product of
+                        <a class="font-weight-bold" href="https://www.technotrade.ua/en" target="_blank">
+                            Oimac Limited
+                        </a>
+                    </small>
+                </div>
+            </footer>
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#">
+                <i class="fa fa-fw fa-rotate-270 fa-angle-double-right"></i>
+            </a>
+            
+            <div id="message" class="d-none alert" role="alert"></div>            
+
+            <div id="busyLoader">
+                <i class="fas fa-cog fa-spin fa-3x" aria-hidden="true"></i>
+            </div>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a id="btnLogout" type="button" class="btn btn-warning">Logout</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- build:js -->
+            <script src="js/jquery.min.js"></script>
+            <script src="js/bootstrap.bundle.min.js"></script>
+            <script src="js/chart.js"></script>
+            <script src="js/jquery.datetimepicker.full.min.js"></script>
+            <script src="js/pts.js"></script>
+            <script src="js/pumpControl.js"></script>
+            <script src="js/tankControl.js"></script>
+            <script src="js/pts_datatables.js"></script>
+            <script src="js/datatables.min.js"></script>
+            <script src="js/website.js"></script>
+            <script src="js/solid.js"></script>
+            <script src="js/fontawesome.js"></script>
+            <!-- endbuild -->
+        </div>
+    </body>
+
+</html>

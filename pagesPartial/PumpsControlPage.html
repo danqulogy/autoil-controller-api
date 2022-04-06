@@ -1,0 +1,166 @@
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item active">
+        <i class="fas fa-gas-pump"></i>
+        Pumps control
+    </li>
+</ol>
+    
+<div class="form-group w-100">
+    <div class="text-center">
+        <table id="pcpPumps" class="display w-100">
+            <thead>
+                <tr>
+                    <th class="text-center">Pump</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Nozzle</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Filled volume</th>
+                    <th class="text-center">Filled amount</th>
+                    <th class="text-center">Total volume</th>
+                    <th class="text-center">Total amount</th>
+                    <th class="text-center">User</th>
+                    <th class="text-center">Request</th>
+                </tr>
+            </thead>
+        </table>
+        <br/>
+    </div>
+</div>
+    
+<div class="form-group row">
+
+    <div class="col-md-4 input-group mb-1">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="pcpPumpSelect">Pump</label>
+        </div>
+        <select class="custom-select form-control" id="pcpPumpSelect"></select>
+    </div>
+
+    <div class="col-md-4 input-group mb-1">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="pcpPresetTypeSelect">Preset type</label>
+        </div>
+        <select class="custom-select form-control" id="pcpPresetTypeSelect">
+            <option value="Volume">Volume</option>
+            <option value="Amount">Amount</option>
+            <option value="FullTank">Full tank</option>
+        </select>
+    </div>
+
+    <div class="col-md-4 input-group mb-1">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="pcpPresetDoseInput">Preset dose</label>
+        </div>
+        <input type="text" class="form-control" id="pcpPresetDoseInput" value="1.00">
+    </div>
+</div>
+
+<div class="row pb-2">
+    
+    <div id="pcpPricesSection" class="d-none">
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle1" value="nozzle1" checked>
+                </div>
+                <span class="input-group-text">Nozzle 1</span>
+                <span class="input-group-text d-none" id="pcpNozzle1GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle1Price" id="nozzle1Price" value="0.00">
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle2" value="nozzle2">
+                </div>
+                <span class="input-group-text">Nozzle 2</span>
+                <span class="input-group-text d-none" id="pcpNozzle2GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle2Price" id="nozzle2Price" value="0.00">
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle3" value="nozzle3">
+                </div>
+                <span class="input-group-text">Nozzle 3</span>
+                <span class="input-group-text d-none" id="pcpNozzle3GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle3Price" id="nozzle3Price" value="0.00">
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle4" value="nozzle4">
+                </div>
+                <span class="input-group-text">Nozzle 4</span>
+                <span class="input-group-text d-none" id="pcpNozzle4GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle4Price" id="nozzle4Price" value="0.00">
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle5" value="nozzle5">
+                </div>
+                <span class="input-group-text">Nozzle 5</span>
+                <span class="input-group-text d-none" id="pcpNozzle5GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle5Price" id="nozzle5Price" value="0.00">
+        </div>
+
+        <div class="input-group mb-1">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input type="radio" name="pcpNozzlesRadio" id="nozzle6" value="nozzle6">
+                </div>
+                <span class="input-group-text">Nozzle 6</span>
+                <span class="input-group-text d-none" id="pcpNozzle6GradeName"></span>
+            </div>
+            <input type="text" class="form-control" name="nozzle6Price" id="nozzle6Price" value="0.00">
+        </div>
+    </div>
+
+    <div id="pcpControlButtonsSection1" class="col-sm-6 offset-sm-3 text-center">
+        <input id="pcpPumpAuthorizeModalButton" type="button" data-toggle="modal" data-target="#pcpAuthorizeModal" class="btn btn-success btn-block systemButton" value="Authorize"></input>
+        <input id="pcpPumpStopButton" type="button" class="btn btn-danger btn-block systemButton" value="Stop"></input>
+        <input id="pcpPumpResumeButton" type="button" class="btn btn-info btn-block systemButton d-none" value="Resume"></input>
+        <input id="pcpPumpSuspendButton" type="button" class="btn btn-warning btn-block systemButton d-none" value="Suspend"></input>
+        <input id="pcpPumpEmergencyStopButton" type="button" class="btn btn-danger btn-block font-weight-bold systemButton" value="EMERGENCY STOP"></input>
+    </div>
+
+    <div id="pcpControlButtonsSection2" class="d-none text-center">
+        <input id="pcpPumpGetPricesButton" type="button" class="btn btn-dark btn-block systemButton" value="Get prices"></input>
+        <input id="pcpPumpSetPricesButton" type="button" class="btn btn-dark btn-block systemButton" value="Set prices"></input>
+        <input id="pcpPumpGetTotalCountersButton" type="button" class="btn btn-dark btn-block systemButton" value="Get total counters"></input>    
+        <input id="pcpPumpGetTagButton" type="button" class="btn btn-dark btn-block systemButton" value="Get tag ID"></input>   
+        <input id="pcpPumpSetLightsOnButton" type="button" class="btn btn-dark btn-block systemButton" value="Turn lights on"></input>
+        <input id="pcpPumpSetLightsOffButton" type="button" class="btn btn-dark btn-block systemButton" value="Turn lights off"></input>
+    </div>
+</div>
+
+<!-- Authorize Modal-->
+<div class="modal fade" id="pcpAuthorizeModal" tabindex="-1" role="dialog" aria-labelledby="authorizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="logoutModalLabel">Confirm authorization?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="pcpAuthorizeModalText" class="modal-body"></div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-success" type="button" id="pcpPumpAuthorizeButton">Authorize</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/PumpsControlPage.js" type="text/javascript"></script>
